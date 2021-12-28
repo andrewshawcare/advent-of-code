@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:
+    build: .
+    command: depthMeasurements.txt
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://opentelemetry-collector:4317
+      OTEL_SERVICE_NAME: com.andrewshawcare.advent_of_code
+  opentelemetry-collector:
+    image: otel/opentelemetry-collector
+    command: --config=/etc/opentelemetry-collector-configuration.yaml
+    volumes:
+      - ./opentelemetry-collector-configuration.yaml:/etc/opentelemetry-collector-configuration.yaml
+  grafana:
+    image: grafana/grafana-oss
+    ports:
+      - '3000:3000'
+    environment:
+      GRAFANA_DATASOURCES_TEMPO_URL: http://tempo:3200
+    volumes:
+      - ./datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+  tempo:
+    image: grafana/tempo
+    command: -config.file=/etc/tempo-configuration.yaml
+    volumes:
+      - ./tempo-configuration.yaml:/etc/tempo-configuration.yaml

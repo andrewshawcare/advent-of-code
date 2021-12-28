@@ -1,10 +1,14 @@
 package com.andrewshawcare.advent_of_code._2021._1;
 
+import io.opentelemetry.extension.annotations.WithSpan;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class DepthMeasurement {
+
+    @WithSpan
     public static int countIncreasingDepthMeasurements(int[] depthMeasurements) {
         if (depthMeasurements.length == 0) {
             return 0;
@@ -25,6 +29,7 @@ public class DepthMeasurement {
         return count;
     }
 
+    @WithSpan
     public static int countIncreasingDepthMeasurementSlidingWindows(int[] depthMeasurements, int windowSize) {
         int count = 0;
 
