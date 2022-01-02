@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration
+    xmlns="http://logging.apache.org/log4j/2.0/config"
+    strict="true"
+>
+    <Appenders>
+        <Appender type="Console" name="Console">
+            <Layout type="PatternLayout">
+                <Pattern>%date - %-5level - %logger - traceID=%X{trace_id} - %X{span_id} - %message%n</Pattern>
+            </Layout>
+        </Appender>
+        <Appender type="File" name="File" fileName="/var/log/app/app.log">
+            <Layout type="PatternLayout">
+                <Pattern>%date - %-5level - %logger - traceID=%X{trace_id} - spanID=%X{span_id} - %message%n</Pattern>
+            </Layout>
+        </Appender>
+    </Appenders>
+    <Loggers>
+        <Root level="trace">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

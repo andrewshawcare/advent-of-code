@@ -10,8 +10,9 @@ RUN mvn dependency:get -Dartifact=${JAVAAGENT_ARTIFACT} \
 COPY pom.xml .
 RUN mvn --batch-mode dependency:go-offline
 
-COPY . .
+COPY ./src ./src
 RUN mvn --batch-mode --offline -Djar.finalName=app package
+RUN jar tf ./target/app.jar
 
 FROM openjdk:17-alpine
 COPY --from=build /opt/app/javaagent.jar ./javaagent.jar

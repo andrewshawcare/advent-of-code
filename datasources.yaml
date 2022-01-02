@@ -2,8 +2,10 @@ apiVersion: 1
 
 deleteDatasources:
   - name: Tempo
+  - name: Loki
 
 datasources:
+
   - name: Tempo
     type: tempo
     access: proxy
@@ -15,3 +17,35 @@ datasources:
     editable: false
     apiVersion: 1
     uid: tempo
+    jsonData:
+      httpMethod: GET
+      tracesToLogs:
+        datasourceUid: loki
+        tags: ['job']
+        filterByTraceID: true
+        filterBySpanID: true
+        spanStartTimeShift: '-1s'
+        spanEndTimeShift: '1s'
+        lokiSearch: true
+
+  - name: Loki
+    type: loki
+    uid: loki
+    access: proxy
+    orgId: 1
+    url: http://loki:3100
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: false
+    apiVersion: 1
+    jsonData:
+      derivedFields:
+        - name: TraceID
+          datasourceUid: tempo
+          matcherRegex: traceID=(\w+)
+          url: $${__value.raw}
+        - name: SpanID
+          datasourceUid: tempo
+          matcherRegex: spanID=(\w+)
+          url: $${__value.raw}

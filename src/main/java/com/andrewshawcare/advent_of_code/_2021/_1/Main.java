@@ -1,29 +1,32 @@
 package com.andrewshawcare.advent_of_code._2021._1;
 
-import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.extension.annotations.WithSpan;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
 public class Main {
+    private static final Logger logger = LogManager.getLogger(Main.class);
+
     public static void main(String[] args) throws IOException, InterruptedException {
+        int[] depthMeasurements = DepthMeasurementFileImporter.importFile(args[0]);
+
+        //noinspection InfiniteLoopStatement
         while (true) {
-            calculateIncreasingDepthMeasurements(args[0]);
+            countIncreasingDepthMeasurements(depthMeasurements);
+
+            //noinspection BusyWait
             Thread.sleep(10000L);
         }
     }
 
     @WithSpan
-    public static void calculateIncreasingDepthMeasurements(String pathname) throws IOException {
-        Span span = Span.current();
-        System.out.println(span.getSpanContext().getTraceId());
-
-        int[] depthMeasurements = DepthMeasurementFileImporter.importFile(pathname);
-
+    private static void countIncreasingDepthMeasurements(int[] depthMeasurements) {
         int increasingDepthMeasurementsCount = DepthMeasurement.countIncreasingDepthMeasurements(depthMeasurements);
-        System.out.println("Increasing depth measurements count: " + increasingDepthMeasurementsCount);
+        logger.info("Increasing depth measurements count: {}", increasingDepthMeasurementsCount);
 
         int increasingDepthMeasurementSlidingWindowsCount = DepthMeasurement.countIncreasingDepthMeasurementSlidingWindows(depthMeasurements, 3);
-        System.out.println("Increasing depth measurement sliding windows count: " + increasingDepthMeasurementSlidingWindowsCount);
+        logger.info("Increasing depth measurement sliding windows count: {}", increasingDepthMeasurementSlidingWindowsCount);
     }
 }

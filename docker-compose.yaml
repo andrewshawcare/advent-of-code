@@ -1,16 +1,47 @@
 version: '3'
+
+volumes:
+  logs:
+
 services:
+
+  loki:
+    image: grafana/loki
+    command: -config.file=/etc/loki-configuration.yaml
+    volumes:
+      - ./loki-configuration.yaml:/etc/loki-configuration.yaml:ro
+    ports:
+      - '3100:3100'
+
+  promtail:
+    image: grafana/promtail
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      - logs:/var/log/app:ro
+      - ./promtail-configuration.yaml:/etc/promtail/config.yml:ro
+
+  tempo:
+    image: grafana/tempo
+    command: -config.file=/etc/tempo-configuration.yaml
+    volumes:
+      - ./tempo-configuration.yaml:/etc/tempo-configuration.yaml:ro
+
+  opentelemetry-collector:
+    image: otel/opentelemetry-collector-contrib
+    command: --config=/etc/opentelemetry-collector-configuration.yaml
+    volumes:
+      - ./opentelemetry-collector-configuration.yaml:/etc/opentelemetry-collector-configuration.yaml:ro
+
   app:
     build: .
     command: depthMeasurements.txt
     environment:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://opentelemetry-collector:4317
       OTEL_SERVICE_NAME: com.andrewshawcare.advent_of_code
-  opentelemetry-collector:
-    image: otel/opentelemetry-collector
-    command: --config=/etc/opentelemetry-collector-configuration.yaml
+      OTEL_RESOURCE_ATTRIBUTES: job=applogs
     volumes:
-      - ./opentelemetry-collector-configuration.yaml:/etc/opentelemetry-collector-configuration.yaml
+      - logs:/var/log/app
+
   grafana:
     image: grafana/grafana-oss
     ports:
@@ -18,9 +49,4 @@ services:
     environment:
       GRAFANA_DATASOURCES_TEMPO_URL: http://tempo:3200
     volumes:
-      - ./datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
-  tempo:
-    image: grafana/tempo
-    command: -config.file=/etc/tempo-configuration.yaml
-    volumes:
-      - ./tempo-configuration.yaml:/etc/tempo-configuration.yaml
+      - ./datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
