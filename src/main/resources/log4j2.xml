@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration
-    xmlns="http://logging.apache.org/log4j/2.0/config"
-    strict="true"
->
+<Configuration>
     <Appenders>
-        <Appender type="Console" name="Console">
-            <Layout type="PatternLayout">
-                <Pattern>%date - %-5level - %logger - traceID=%X{trace_id} - %X{span_id} - %message%n</Pattern>
-            </Layout>
-        </Appender>
-        <Appender type="File" name="File" fileName="/var/log/app/app.log">
-            <Layout type="PatternLayout">
-                <Pattern>%date - %-5level - %logger - traceID=%X{trace_id} - spanID=%X{span_id} - %message%n</Pattern>
-            </Layout>
-        </Appender>
+        <Console name="Console" target="SYSTEM_OUT">
+            <JsonLayout compact="true" eventEol="true">
+                <KeyValuePair key="trace_id" value="$${ctx:trace_id}"/>
+                <KeyValuePair key="span_id" value="$${ctx:span_id}"/>
+            </JsonLayout>
+        </Console>
+        <File name="File" fileName="/var/log/app/app.log">
+            <JsonLayout compact="true" eventEol="true">
+                <KeyValuePair key="trace_id" value="$${ctx:trace_id}"/>
+                <KeyValuePair key="span_id" value="$${ctx:span_id}"/>
+            </JsonLayout>
+        </File>
     </Appenders>
     <Loggers>
         <Root level="trace">
