@@ -48,5 +48,6 @@ services:
       - '3000:3000'
     environment:
       GRAFANA_DATASOURCES_TEMPO_URL: http://tempo:3200
+      GRAFANA_DATASOURCES_LOKI_URL: http://loki:3100
     volumes:
       - ./datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
