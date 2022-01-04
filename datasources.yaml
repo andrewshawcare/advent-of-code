@@ -10,7 +10,7 @@ datasources:
     type: tempo
     access: proxy
     orgId: 1
-    url: ${GRAFANA_DATASOURCES_TEMPO_URL}
+    url: ${GF_DATASOURCES_TEMPO_URL}
     basicAuth: false
     isDefault: true
     version: 1
@@ -33,7 +33,7 @@ datasources:
     uid: loki
     access: proxy
     orgId: 1
-    url: ${GRAFANA_DATASOURCES_LOKI_URL}
+    url: ${GF_DATASOURCES_LOKI_URL}
     basicAuth: false
     isDefault: false
     version: 1
