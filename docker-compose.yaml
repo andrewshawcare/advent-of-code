@@ -38,7 +38,7 @@ services:
     environment:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://opentelemetry-collector:4317
       OTEL_SERVICE_NAME: com.andrewshawcare.advent_of_code
-      OTEL_RESOURCE_ATTRIBUTES: job=applogs
+      OTEL_RESOURCE_ATTRIBUTES: job=app
     volumes:
       - logs:/var/log/app
 
@@ -50,5 +50,7 @@ services:
       GF_DATASOURCES_TEMPO_URL: http://tempo:3200
       GF_DATASOURCES_LOKI_URL: http://loki:3100
       GF_AUTH_ANONYMOUS_ENABLED: true
+      GF_AUTH_ANONYMOUS_ORG_NAME: Main Org.
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
     volumes:
       - ./datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
