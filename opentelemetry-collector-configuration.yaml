@@ -15,7 +15,6 @@ exporters:
     endpoint: http://loki:3100/loki/api/v1/push
     labels:
       attributes:
-        application: 'advent_of_code'
         severity: ''
 
 service:
