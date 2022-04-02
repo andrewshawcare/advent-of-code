@@ -3,13 +3,14 @@ package com.andrewshawcare.advent_of_code._2021._1;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DepthMeasurementFileImporterTest {
     @Test
     public void fileImportTest() throws IOException {
-        int[] expectedDepthMeasurements = new int[] {
+        var expectedDepthMeasurements = List.of(
             199,
             200,
             208,
@@ -20,9 +21,9 @@ public class DepthMeasurementFileImporterTest {
             269,
             260,
             263
-        };
-        int[] actualDepthMeasurements = DepthMeasurementFileImporter.importFile("depthMeasurements.txt");
+        );
+        var actualDepthMeasurements = DepthMeasurementFileImporter.importFile("depthMeasurements.txt");
 
-        assertArrayEquals(actualDepthMeasurements, expectedDepthMeasurements);
+        assertEquals(actualDepthMeasurements, expectedDepthMeasurements);
     }
 }

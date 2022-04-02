@@ -3,25 +3,22 @@ package com.andrewshawcare.advent_of_code._2021._1;
 import io.opentelemetry.extension.annotations.WithSpan;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DepthMeasurement {
 
     @WithSpan
-    public static int countIncreasingDepthMeasurements(int[] depthMeasurements) {
-        if (depthMeasurements.length == 0) {
-            return 0;
-        }
-
+    public static int countIncreasingDepthMeasurements(List<Integer> depthMeasurements) {
         int count = 0;
 
-        for (int i = 0; i < depthMeasurements.length; i++) {
-            if (i + 1 == depthMeasurements.length) {
+        for (int index = 0; index < depthMeasurements.size(); index++) {
+            if (index + 1 == depthMeasurements.size()) {
                 break;
             }
 
-            if (depthMeasurements[i] < depthMeasurements[i + 1]) {
+            var currentDepthMeasurement = depthMeasurements.get(index);
+            var nextDepthMeasurement = depthMeasurements.get(index + 1);
+            if (currentDepthMeasurement < nextDepthMeasurement) {
                 count++;
             }
         }
@@ -30,23 +27,27 @@ public class DepthMeasurement {
     }
 
     @WithSpan
-    public static int countIncreasingDepthMeasurementSlidingWindows(int[] depthMeasurements, int windowSize) {
+    public static int countIncreasingDepthMeasurementSlidingWindows(List<Integer> depthMeasurements, int windowSize) {
         int count = 0;
 
-        List<Integer> depthMeasurementsList = Arrays.stream(depthMeasurements).boxed().toList();
-
         List<Integer> windowSums = new ArrayList<>();
-        for (int fromIndex = 0; fromIndex < depthMeasurementsList.size(); fromIndex++) {
+        for (int fromIndex = 0; fromIndex < depthMeasurements.size(); fromIndex++) {
             int toIndex = fromIndex + windowSize;
-            if (toIndex > depthMeasurementsList.size()) {
+
+            if (toIndex > depthMeasurements.size()) {
                 break;
             }
-            windowSums.add(depthMeasurementsList.subList(fromIndex, toIndex).stream().mapToInt(Integer::valueOf).sum());
 
-            if (
-                windowSums.size() > 1 &&
-                windowSums.get(windowSums.size() - 2) < windowSums.get(windowSums.size() - 1)
-            ) {
+            var window = depthMeasurements.subList(fromIndex, toIndex);
+            windowSums.add(window.stream().mapToInt(Integer::valueOf).sum());
+
+            if (windowSums.size() < 2) {
+                continue;
+            }
+
+            int lastWindowSum = windowSums.get(windowSums.size() - 2);
+            int currentWindowSum = windowSums.get(windowSums.size() - 1);
+            if (lastWindowSum < currentWindowSum) {
                 count++;
             }
         }
