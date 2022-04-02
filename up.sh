@@ -5,7 +5,7 @@ docker_compose_files='--file ./docker-compose.yaml --file ./opentelemetry/docker
 
 cleanup() {
   # shellcheck disable=SC2086
-  docker-compose ${docker_compose_files} down --volumes
+  docker-compose ${docker_compose_files} down
 }
 
 trap cleanup EXIT
