@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+
+  loki:
+    image: grafana/loki
+    command: -config.file=/etc/loki-configuration.yaml
+    volumes:
+      - ./opentelemetry/loki-configuration.yaml:/etc/loki-configuration.yaml:ro
+    ports:
+      - '3100:3100'
+
+  promtail:
+    image: grafana/promtail
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      - ./opentelemetry/promtail-configuration.yaml:/etc/promtail/config.yml:ro
+      - logs:/var/log/app:ro
+
+  tempo:
+    image: grafana/tempo
+    command: -config.file=/etc/tempo-configuration.yaml
+    volumes:
+      - ./opentelemetry/tempo-configuration.yaml:/etc/tempo-configuration.yaml:ro
+
+  opentelemetry-collector:
+    image: otel/opentelemetry-collector-contrib
+    command: --config=/etc/opentelemetry-collector-configuration.yaml
+    volumes:
+      - ./opentelemetry/opentelemetry-collector-configuration.yaml:/etc/opentelemetry-collector-configuration.yaml:ro
+
+  grafana:
+    image: grafana/grafana-oss
+    ports:
+      - '3000:3000'
+    environment:
+      GF_DATASOURCES_TEMPO_URL: http://tempo:3200
+      GF_DATASOURCES_LOKI_URL: http://loki:3100
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+      GF_AUTH_ANONYMOUS_ORG_NAME: Main Org.
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+    volumes:
+      - ./opentelemetry/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro

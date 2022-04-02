@@ -14,7 +14,7 @@ COPY ./src ./src
 RUN mvn --batch-mode --offline -Djar.finalName=app package
 RUN jar tf ./target/app.jar
 
-FROM openjdk:17-alpine
+FROM openjdk:17
 COPY --from=build /opt/app/javaagent.jar ./javaagent.jar
 COPY --from=build /opt/app/target/app.jar ./app.jar
 

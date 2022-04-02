@@ -4,34 +4,6 @@ volumes:
   logs:
 
 services:
-
-  loki:
-    image: grafana/loki
-    command: -config.file=/etc/loki-configuration.yaml
-    volumes:
-      - ./loki-configuration.yaml:/etc/loki-configuration.yaml:ro
-    ports:
-      - '3100:3100'
-
-  promtail:
-    image: grafana/promtail
-    command: -config.file=/etc/promtail/config.yml
-    volumes:
-      - logs:/var/log/app:ro
-      - ./promtail-configuration.yaml:/etc/promtail/config.yml:ro
-
-  tempo:
-    image: grafana/tempo
-    command: -config.file=/etc/tempo-configuration.yaml
-    volumes:
-      - ./tempo-configuration.yaml:/etc/tempo-configuration.yaml:ro
-
-  opentelemetry-collector:
-    image: otel/opentelemetry-collector-contrib
-    command: --config=/etc/opentelemetry-collector-configuration.yaml
-    volumes:
-      - ./opentelemetry-collector-configuration.yaml:/etc/opentelemetry-collector-configuration.yaml:ro
-
   app:
     build: .
     command: depthMeasurements.txt
@@ -41,16 +13,3 @@ services:
       OTEL_RESOURCE_ATTRIBUTES: job=app
     volumes:
       - logs:/var/log/app
-
-  grafana:
-    image: grafana/grafana-oss
-    ports:
-      - '3000:3000'
-    environment:
-      GF_DATASOURCES_TEMPO_URL: http://tempo:3200
-      GF_DATASOURCES_LOKI_URL: http://loki:3100
-      GF_AUTH_ANONYMOUS_ENABLED: true
-      GF_AUTH_ANONYMOUS_ORG_NAME: Main Org.
-      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
-    volumes:
-      - ./datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro
