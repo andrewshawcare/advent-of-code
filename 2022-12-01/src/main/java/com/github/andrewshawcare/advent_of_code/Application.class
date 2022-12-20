@@ -1,3 +1,5 @@
+package com.github.andrewshawcare.advent_of_code;
+
 public class Application {
     
 }
