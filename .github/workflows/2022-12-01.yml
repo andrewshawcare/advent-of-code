@@ -1,0 +1,14 @@
+defaults:
+  run:
+    working-directory: 2022-12-01
+on:
+  push:
+    paths:
+      - '.github/workflows/2022-12-01.yml'
+      - '2022-12-01/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: ls
