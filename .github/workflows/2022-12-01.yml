@@ -14,5 +14,5 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version-file: .java-version
+          java-version-file: 2022-12-01/.java-version
       - run: ./gradlew build
