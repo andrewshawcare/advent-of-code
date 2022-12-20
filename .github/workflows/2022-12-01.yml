@@ -15,4 +15,5 @@ jobs:
         with:
           distribution: temurin
           java-version-file: 2022-12-01/.java-version
+      - uses: gradle/gradle-build-action@v2
       - run: ./gradlew build
