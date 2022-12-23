@@ -19,7 +19,7 @@ jobs:
         with:
           gradle-version: wrapper
           cache-read-only: false
-      - run: build
+      - run: ./gradlew build
   test:
     runs-on: ubuntu-latest
     steps:
@@ -32,7 +32,7 @@ jobs:
         with:
           gradle-version: wrapper
           cache-read-only: false
-      - run: test
+      - run: ./gradlew test
   publish:
     runs-on: ubuntu-latest
     steps:
@@ -49,4 +49,4 @@ jobs:
         with:
           gradle-version: wrapper
           cache-read-only: false
-      - run: jib
+      - run: ./gradlew jib
