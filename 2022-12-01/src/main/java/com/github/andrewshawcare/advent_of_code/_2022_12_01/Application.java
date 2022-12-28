@@ -15,7 +15,6 @@ public class Application {
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext applicationContext) {
         return args -> {
-            System.out.println("Bean definitions: \n");
             for (String beanDefinitionName : applicationContext.getBeanDefinitionNames()) {
                 System.out.println(beanDefinitionName);
             }
