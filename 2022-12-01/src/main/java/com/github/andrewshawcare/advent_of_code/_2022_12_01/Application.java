@@ -1,4 +1,4 @@
-package com.github.andrewshawcare.advent_of_code;
+package com.github.andrewshawcare.advent_of_code._2022_12_01;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
