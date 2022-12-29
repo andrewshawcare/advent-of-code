@@ -11,14 +11,4 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
-    @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext applicationContext) {
-        return args -> {
-            System.out.println("Bean definitions: \n");
-            for (String beanDefinitionName : applicationContext.getBeanDefinitionNames()) {
-                System.out.println(beanDefinitionName);
-            }
-        };
-    }
 }
