@@ -9,5 +9,5 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:3.0.1")
-    implementation("org.springframework.boot:sprint-boot-starter-actuator:3.0.0")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.1")
 }
