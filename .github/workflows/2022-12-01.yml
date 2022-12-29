@@ -6,4 +6,8 @@ on:
     paths:
       - '.github/workflows/2022-12-01.yml'
       - '2022-12-01/**'
-jobs: {}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Hello, world!'
