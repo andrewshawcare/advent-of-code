@@ -1,9 +1,0 @@
-on:
-  push:
-    paths:
-      - '2022-12-01/**'
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Hello, world!"
