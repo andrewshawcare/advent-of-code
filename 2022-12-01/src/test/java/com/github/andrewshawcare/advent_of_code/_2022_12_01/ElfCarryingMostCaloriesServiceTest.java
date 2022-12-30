@@ -17,6 +17,7 @@ public class ElfCarryingMostCaloriesServiceTest {
         final List<String> elfCalorieEntryList = Files.readAllLines(
             Paths.get("src/test/resources/actual_elf_calorie_list.txt")
         );
+        
 
         int caloriesCarriedByElfCarryingMostCalories = elfCarryingMostCaloriesService.getCaloriesCarriedByElfCarryingMostCalories(elfCalorieEntryList);
 
